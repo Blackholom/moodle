@@ -205,6 +205,44 @@ exports.getSubjectById = function (req, res) {
     });
 };
 
+exports.getSubjectByTeacher = function (req, res) {
+    const reqUrl = url.parse(req.url, true);
+    const teacher_id = reqUrl.query.id;
+    conn.query('SELECT s.id,s.name,s.description,s.state FROM subject s LEFT JOIN user_has_subject uhs ON ' +
+        'uhs.subject_id = s.id LEFT JOIN user u ON u.id = uhs.user_id WHERE u.type_id = 1 AND u.id = ?', teacher_id, (e, rows) => {
+        var error = null;
+
+        if (e){
+            error = 'No hay registros con el id indicado. Error: ' + e;
+            res.statusCode = 404;
+        } else {
+            res.statusCode = 200;
+        }
+
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({"status": res.statusCode, "error": error, "response": rows}))
+    });
+};
+
+exports.getSubjectByStudent = function (req, res) {
+    const reqUrl = url.parse(req.url, true);
+    const student_id = reqUrl.query.id;
+    conn.query('SELECT s.id,s.name,s.description,s.state FROM subject s LEFT JOIN user_has_subject uhs ON ' +
+        'uhs.subject_id = s.id LEFT JOIN user u ON u.id = uhs.user_id WHERE u.type_id = 2 AND u.id = ?', student_id, (e, rows) => {
+        var error = null;
+
+        if (e){
+            error = 'No hay registros con el id indicado. Error: ' + e;
+            res.statusCode = 404;
+        } else {
+            res.statusCode = 200;
+        }
+
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({"status": res.statusCode, "error": error, "response": rows}))
+    });
+};
+
 // ------------------------------------------------------------------------------------------------------
 // CRUD User Type
 // Get list of all User Type

@@ -50,8 +50,15 @@ module.exports = http.createServer((req, res) => {
     } else if (reqUrl.pathname == '/userType/show' && req.method === 'GET'){
         console.log('Request Type:' + req.method + ' Endpoint: ' + reqUrl.pathname);
         service.getUserTypeById(req, res);
-    } else if (reqUrl.pathname == '/test' && req.method === 'POST') {
-        // TODO
+    } else if (reqUrl.pathname == '/user/subjectsIssued' && req.method === 'GET'){
+        console.log('Request Type:' + req.method + ' Endpoint: ' + reqUrl.pathname);
+        service.getSubjectByTeacher(req, res);
+    } else if (reqUrl.pathname == '/user/subjectsEnrolled' && req.method === 'GET'){
+        console.log('Request Type:' + req.method + ' Endpoint: ' + reqUrl.pathname);
+        service.getSubjectByStudent(req, res);
+    } else if (reqUrl.pathname == '/user/showSubject' && req.method === 'GET'){
+        console.log('Request Type:' + req.method + ' Endpoint: ' + reqUrl.pathname);
+        service.getSubjectById(req, res);
     } else {
         console.log('Request Type:' +
             req.method + ' Invalid Endpoint: ' +
